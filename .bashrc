@@ -8,6 +8,9 @@
 alias ls='ls --color=tty'
 alias boo='paru -Rcs'
 alias yay='paru'
+alias la='ls -a'
+alias ll='ls -aSsrh'
+alias lv='ls -atuhl'
 #alias grep='grep --color=auto'
 
 
