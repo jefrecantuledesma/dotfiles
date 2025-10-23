@@ -66,11 +66,13 @@
     },
     "cpu": {
         "format": "{usage}%   ",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "CPU: {usage}%"
     },
     "memory": {
         "format": "{}%    ",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "RAM: {}%"
     },
     "temperature": {
         "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
@@ -81,7 +83,9 @@
     "backlight": {
         // "device": "acpi_video1",
         "format": "{percent}%    ",
-        "format-icons": ["󰌶", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"]
+        "format-icons": ["󰌶", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
+        "tooltip": true,
+        "tooltip-format": "Backlight: {percent}%"
     },
     "battery": {
         "states": {
