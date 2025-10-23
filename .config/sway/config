@@ -17,48 +17,81 @@ font Sans Serif Regular 11
 
 #! Scale Options Start !#
 #
-# Target Display = BOE 0x0BCA Unknown
+# Target Display = BOE NE135A1M-NY1 Unknown
 # Scale Options = 1, 1.5, 2
 #
 #! Scale Options End !#
 
+#! Pipewire Sample Rate Options Start !#
+#
+# Sample Rate Options = 44100, 48000
+#
+#! Pipewire Sample Rate Options End !#
+
 
 #! Display Start !#
 # Description = Laptop Only, Status = Enabled
-output "BOE 0x0BCA Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 0 0 
+#! Primary Monitor Start !#
+output "BOE NE135A1M-NY1 Unknown" scale 2 resolution 2880x1920@120HZ position 0 0 
+#! Primary Monitor End !#
 # Description = External GPU, Status = Disabled
-# output "BOE 0x0BCA Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 1280 1080
+# output "BOE NE135A1M-NY1 Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 1280 1080
 # output "Acer Technologies Acer XF270H B 0x9372943C" resolution 1920x1080@144HZ position 1280 0
 # output "Acer Technologies GN246HL LW3AA0018533" resolution 1920x1080@60HZ position 3200 0
 # output "Unknown Unknown Unknown" resolution 640x480@59.950HZ scale 0.5 position 0 0
 # Description = External GPU (No Small Monitor), Status = Disabled
-# output "BOE 0x0BCA Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 0 1080
+# output "BOE NE135A1M-NY1 Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 0 1080
 # output "Acer Technologies Acer XF270H B 0x9372943C" resolution 1920x1080@144HZ position 0 0
 # output "Acer Technologies GN246HL LW3AA0018533" resolution 1920x1080@60HZ position 1920 0
 # output "Unknown Unknown Unknown" disable
 # Description = New Home, Status = Disabled
-# output "BOE 0x0BCA Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 0 0
-# output "Acer Technologies Acer XF270H B 0x9372943C" resolution 1920x1080@144HZ position 1504 0
-# output "Unknown Unknown Unknown" disable
+#! Primary Monitor Start !#
+# output "Acer Technologies Acer XF270H B 0x9372943C" resolution 1920x1080@144HZ position 0 0 
+#! Primary Monitor End !#
+# output "Unknown Unknown Unknown" scale 1 transform 270 resolution --custom 1920x1080 position 1920 0
+# output "BOE NE135A1M-NY1 Unknown" scale 2 resolution 2880x1920@120HZ position -1440 0
+## Group = Mobile Work ##
+# Description = Laptop Right, Status = Disabled
+# output "BOE NE135A1M-NY1 Unknown" scale 2 resolution 2880x1920@120HZ position 1706 0
+#! Primary Monitor Start !#
+# output "BOE Display demoset-1" scale 1.5 resolution 2560x1440@143.998HZ position 0 0
+#! Primary Monitor End !#
+# Description = Laptop Left, Status = Disabled
+# output "BOE NE135A1M-NY1 Unknown" scale 2 resolution 2880x1920@120HZ position 0 0
+#! Primary Monitor Start !#
+# output "BOE Display demoset-1" scale 1.5 resolution 2560x1440@143.998HZ position 1440 0
+#! Primary Monitor End !#
+# Description = Laptop Top, Status = Disabled
+# output "BOE Display demoset-1" scale 1.5 resolution 2560x1440@143.998HZ position 0 0
+# output "BOE NE135A1M-NY1 Unknown" scale 2 resolution 2880x1920@120HZ position 0 -960
+## End Group ##
 # Description = New Home (Gaming), Status = Disabled
-# output "BOE 0x0BCA Unknown" scale 1.5 resolution 2256x1504@59.999HZ position -1504 0
+# output "BOE NE135A1M-NY1 Unknown" scale 1.5 resolution 2256x1504@59.999HZ position -1504 0
 # output "Acer Technologies Acer XF270H B 0x9372943C" resolution 1920x1080@144HZ position 0 0
 # output "Unknown Unknown Unknown" disable
+# Description = Cabin, Status = Disabled
+# output "AOC 27B2 0x00013530" resolution 1920x1080 position 0 0
+# output "BOE NE135A1M-NY1 Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 1920 0
+# Description = Work, Status = Disabled
+# output "BOE NE135A1M-NY1 Unknown" scale 1.5 resolution 2256x1504@59.999HZ position 0 0
+# output "Samsung Electric Company S27B350 0x5A34514E" resolution 1920x1080 position 0 -1080 
+# output "Dell Inc. DELL P2319H HP8F9H3" transform 90 resolution 1920x1080  position 1504 0
 #! Display End !#
 
-output "BOE 0x0BCA Unknown" color_profile icc '/home/fribbit/.local/share/icc/framework.icm'
+output * adaptive_sync on
+#output "BOE NE135A1M-NY1 Unknown" color_profile icc '/home/fribbit/.local/share/icc/framework.icm'
 
 exec swaybg -i ~/.config/sway/wallpaper.png -m fill
 bindsym $mod+Shift+B exec swaybg -i ~/.config/sway/wallpaper.png -m fill
 
-set $laptop_screen 'eDP-1'
+set $laptop_screen 'BOE NE135A1M-NY1 Unknown'
 bindswitch --reload --locked lid:on exec '[ $(swaymsg -t get_outputs | grep name | wc -l) == 1 ] && exec swaylock -f && sleep 1 && ($sleep) || ($notify "Clamshell mode" "Laptop screen off" && swaymsg output $laptop_screen disable)'
 
 bindswitch --reload --locked lid:off output $laptop_screen enable
 
 #! SWAYIDLE START !#
 exec swayidle -w \
-          timeout 300 'exec playerctl pause & exec /home/fribbit/.config/sway/scripts/lock_and_usbkill.sh' \
+          timeout 300 'exec playerctl pause & exec swaylock -f' \
           timeout 600 'exec systemctl suspend' \
           timeout 1200 'exec systemctl hibernate'
 #! SWAYIDLE END !#
@@ -72,6 +105,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
 bindsym XF86MonBrightnessUp exec brightnessctl set 1%+
+bindsym $mod+Shift+F5 exec pipewire-sample-rate-switcher
 
 ### Input configuration
    input "2362:628:PIXA3854:00_093A:0274_Touchpad" {
@@ -84,12 +118,9 @@ dwt enabled
     # Take a Screenshot
     bindsym $mod+F12 exec grim ~/Pictures/screenshots/$(date +'%s_grim.png')
     bindsym $mod+Shift+F12 exec slurp | grim -g - - | wl-copy
+    bindsym $mod+Shift+Mod1+F12 exec slurp | grim -g - ~/Pictures/screenshots/$(date +'%s_grim.png')
 
-    # Temporary fix for delete key
-    bindsym Alt+Shift+Backspace exec --no-startup-id wtype -k "delete"
-
-    # Temporary fix for insert key
-    bindsym Alt+Shift+Ctrl+Backspace exec --no-startup-id wtype -k "insert"
+    bindsym $mod+Shift+F9 exec x11-primary-switcher --auto-switch 
 
 
     # Start a terminal
@@ -102,7 +133,7 @@ dwt enabled
     bindsym $mod+d exec $menu
 
     # Start Calcurse
-    bindsym $mod+F1 exec $term calcurse
+    bindsym $mod+F1 exec $term calcure
 
     # Start Firefox
     bindsym $mod+F2 exec MOZ_ENABLE_WAYLAND=1 firefox 
@@ -111,7 +142,7 @@ dwt enabled
     bindsym $mod+F4 exec google-chrome-stable -enable-features=UseOzonePlatform -ozone-platform=wayland
 
     # Start Thunar
-    bindsym $mod+F3 exec thunar
+    bindsym $mod+F3 exec pcmanfm
 
     # Start Swaylock 
     #bindsym $mod+Shift+x exec swaylock -f --indicator-radius 25 --indicator-x-position 50 --indicator-y-position 950 --image /home/fribbit/.config/sway/wallpapers/train_car_tunnel.png; exec $term -e usbkill-git
